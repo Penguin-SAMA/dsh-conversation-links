@@ -1,6 +1,7 @@
 # dsh-conversation-links（对话引用）
 
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![npm](https://img.shields.io/npm/v/dsh-conversation-links.svg)](https://www.npmjs.com/package/dsh-conversation-links)
 [![dsh](https://img.shields.io/badge/dsh-%3E%3D0.2.0--rc.2-4c7dff.svg)](https://github.com/deepseek-ai)
 [![platform](https://img.shields.io/badge/platform-web-lightgrey.svg)](#)
 
@@ -9,17 +10,31 @@
 
 ## 安装
 
+两种方式，任选其一（装完刷新 DSH 页面即可，桌面上可 Ctrl+R）：
+
+**从 GitHub Release 下载**（无需 clone）：
+
+下载 [最新 Release](https://github.com/Penguin-SAMA/dsh-conversation-links/releases/latest) 的
+`dsh-conversation-links-<version>.tgz`，解压得到 `package/` 目录，然后：
+
+```text
+plugin_manager action=install_bundle target=<解压出的 package 目录绝对路径>
+```
+
+**从源码 clone**：
+
 ```bash
 git clone https://github.com/Penguin-SAMA/dsh-conversation-links.git
 ```
-
-然后让 DSH 安装这个本地包目录（把路径换成你 clone 下来的位置）：
 
 ```text
 plugin_manager action=install_bundle target=<clone 目录的绝对路径>
 ```
 
-装完刷新一下 DSH 页面即可（桌面上可以直接 Ctrl+R）。卸载：`plugin_manager action=set_bundle target=dsh-conversation-links enabled=false`。
+卸载：`plugin_manager action=set_bundle target=dsh-conversation-links enabled=false`。
+
+> npm 上也发布了（`npm i dsh-conversation-links`），但 DSH 的 `install_bundle` 需要**绝对目录路径**，
+> 所以从 npm 安装时请指向 `node_modules/dsh-conversation-links` 的绝对路径，其余同上。
 
 ## 用法
 
