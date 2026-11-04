@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64" role="img" aria-label="Conversation Links">
+  <rect x="4" y="12" width="30" height="24" rx="6" fill="none" stroke="#4c7dff" stroke-width="3"/>
+  <rect x="30" y="28" width="30" height="24" rx="6" fill="none" stroke="#4c7dff" stroke-width="3"/>
+  <path d="M20 36v6a4 4 0 0 0 4 4h6" fill="none" stroke="#4c7dff" stroke-width="3" stroke-linecap="round"/>
+  <circle cx="19" cy="24" r="2.2" fill="#4c7dff"/>
+  <circle cx="28" cy="24" r="2.2" fill="#4c7dff"/>
+  <circle cx="45" cy="40" r="2.2" fill="#4c7dff"/>
+  <circle cx="54" cy="40" r="2.2" fill="#4c7dff"/>
+</svg>

@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "Conversation Links",
+    "description": "Bring records from one conversation into another: drag a conversation from the sidebar onto the composer to reference it, or open the record picker, tick individual messages and insert them into the current or another conversation."
+  }
+}
