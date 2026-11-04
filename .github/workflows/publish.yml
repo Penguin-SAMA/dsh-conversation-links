@@ -1,0 +1,33 @@
+name: publish
+
+on:
+  push:
+    tags:
+      - "v*"
+  workflow_dispatch:
+
+jobs:
+  npm:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org
+
+      - name: Verify syntax and manifest
+        run: |
+          node --check lib/client.js
+          node --check lib/index.js
+          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('locale/zh.json','utf8'))"
+          node -e "JSON.parse(require('fs').readFileSync('locale/en.json','utf8'))"
+
+      - name: Publish to npm
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
