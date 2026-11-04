@@ -1,8 +1,24 @@
 {
   "name": "dsh-conversation-links",
   "version": "0.1.0",
-  "private": true,
-  "description": "跨对话引用：拖拽侧栏对话到输入框、按消息挑选并插入到另一个对话。",
+  "description": "DSH 插件：跨对话引用 —— @ 引用其他对话、从左侧栏拖拽对话进输入框、打开对话勾选消息插入到另一个对话。",
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "conversation",
+    "reference"
+  ],
+  "license": "MIT",
+  "author": "Penguin-SAMA",
+  "homepage": "https://github.com/Penguin-SAMA/dsh-conversation-links#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Penguin-SAMA/dsh-conversation-links.git"
+  },
+  "bugs": {
+    "url": "https://github.com/Penguin-SAMA/dsh-conversation-links/issues"
+  },
   "type": "module",
   "main": "lib/index.js",
   "engines": {
@@ -21,7 +37,7 @@
     "lib/client.js",
     "cordis.patch.yml",
     "locale/*.json",
-    "icon.svg"
+    "icon.svg",
   ],
   "icon": "./icon.svg",
   "dsh": {

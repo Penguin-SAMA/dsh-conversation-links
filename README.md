@@ -1,6 +1,29 @@
 # dsh-conversation-links（对话引用）
 
-把一段 DSH 对话里的记录带到另一段对话。三种用法：
+[![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
+[![dsh](https://img.shields.io/badge/dsh-%3E%3D0.2.0--rc.2-4c7dff.svg)](https://github.com/deepseek-ai)
+[![platform](https://img.shields.io/badge/platform-web-lightgrey.svg)](#)
+
+把一段 DSH 对话里的记录带到另一段对话：`@` 引用、从左侧栏拖进来、或者打开一段对话勾选其中的消息插到别处。
+
+
+## 安装
+
+```bash
+git clone https://github.com/Penguin-SAMA/dsh-conversation-links.git
+```
+
+然后让 DSH 安装这个本地包目录（把路径换成你 clone 下来的位置）：
+
+```text
+plugin_manager action=install_bundle target=<clone 目录的绝对路径>
+```
+
+装完刷新一下 DSH 页面即可（桌面上可以直接 Ctrl+R）。卸载：`plugin_manager action=set_bundle target=dsh-conversation-links enabled=false`。
+
+## 用法
+
+三种用法：
 
 ## 1. `@` 引用另一段对话
 
@@ -114,13 +137,20 @@
 | `package.json` | bundle 清单：`dsh.bundle.patch` + `dsh.client` |
 | `cordis.patch.yml` | 插入 `conversation-links` 一行 |
 | `lib/index.js` | 宿主侧空实现（`apply() {}`） |
-| `lib/client.js` | 全部逻辑：拖拽桥、挑选面板、插入、i18n、样式 |
+| `lib/client.js` | 全部逻辑：`@` 对话源、拖拽桥、挑选面板、插入、i18n、样式 |
 | `locale/zh.json`、`locale/en.json` | 市场展示用的标题与描述 |
 | `icon.svg` | 插件图标 |
 
-安装（已在当前 profile 完成）：
+## 兼容性
 
-```bash
-# 通过 plugin_manager 安装本地包目录
-plugin_manager action=install_bundle target=<本目录绝对路径>
-```
+- DSH `>= 0.2.0-rc.2`，Node `>= 18`，Web 平台（`dsh.client.platform = "web"`）。
+- 用到的 DSH 内部接口（都是公开的客户端服务 / slot，升级后如失效请提 issue）：
+  `conversation.input.shell(id)`、`shell.actions.captureInsertion/insertText/setDraft`、
+  `sessions.retain/list`、`inputTriggers.registerSource`、`slots.inject/register`、
+  `uiSession.current`。DOM 选择器：`[data-row-key^="session:"]`（侧栏行）、
+  `[data-composer-card]` / `[data-composer-seat]` / `[data-conversation-region="composer"]`（输入框）、
+  `[data-conversation-session]`（DOM → session id）。
+
+## License
+
+[MIT](./LICENSE)
