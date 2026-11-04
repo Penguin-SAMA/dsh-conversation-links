@@ -34,6 +34,22 @@ jobs:
           console.log('manifest ok: ' + p.name + '@' + p.version);
           "
 
+      - name: Check bilingual docs
+        run: |
+          node -e "
+          const fs = require('fs');
+          const en = fs.readFileSync('README.md', 'utf8');
+          const zh = fs.readFileSync('README.zh-CN.md', 'utf8');
+          if (!en.includes('(./README.zh-CN.md)')) { console.error('README.md does not link README.zh-CN.md'); process.exit(1); }
+          if (!zh.includes('(./README.md)')) { console.error('README.zh-CN.md does not link README.md'); process.exit(1); }
+          for (const [name, body] of [['README.md', en], ['README.zh-CN.md', zh]]) {
+            for (const m of body.matchAll(/!\[[^\]]*\]\((docs\/[^)]+)\)/g)) {
+              if (!fs.existsSync(m[1])) { console.error(name + ' references a missing image: ' + m[1]); process.exit(1); }
+            }
+          }
+          console.log('bilingual docs ok');
+          "
+
   npm:
     needs: verify
     runs-on: ubuntu-latest

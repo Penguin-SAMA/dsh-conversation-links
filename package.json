@@ -1,7 +1,7 @@
 {
   "name": "dsh-conversation-links",
-  "version": "0.1.2",
-  "description": "DSH 插件：跨对话引用 —— @ 引用其他对话、从左侧栏拖拽对话进输入框、打开对话勾选消息插入到另一个对话。",
+  "version": "0.1.3",
+  "description": "DSH plugin: reference other conversations — mention one with @, drag a sidebar conversation into the composer, or open a conversation, tick individual messages and insert them into another one.",
   "keywords": [
     "dsh",
     "dsh-plugin",
@@ -39,6 +39,7 @@
     "locale/*.json",
     "icon.svg",
     "icon.png",
+    "README.zh-CN.md"
   ],
   "icon": "./icon.svg",
   "dsh": {
