@@ -51,14 +51,41 @@ jobs:
         id: token
         run: |
           if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
-            echo "::notice title=NPM_TOKEN not configured::Skipping npm publish. Add a repository secret named NPM_TOKEN (an npm Automation token) to publish releases automatically."
+            echo "::notice title=NPM_TOKEN not configured::Skipping npm publish. Add a repository secret named NPM_TOKEN to publish releases automatically."
             echo "present=false" >> "$GITHUB_OUTPUT"
           else
             echo "present=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Publish to npm
+        id: publish
         if: steps.token.outputs.present == 'true'
+        continue-on-error: true
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Explain npm failure
+        if: steps.publish.outcome == 'failure'
+        run: |
+          echo "::error title=npm publish failed::See the Publish step log above for the npm error code."
+          cat <<'MSG'
+          If the log says:
+
+            403 Two-factor authentication or granular access token with bypass 2fa enabled is required
+
+          then NPM_TOKEN is a token type that cannot publish non-interactively. Fix by creating either:
+
+            * Classic token, type "Automation"   (recommended; 2FA is bypassed for CI), or
+            * Granular access token with "Bypass 2FA" enabled and read/write on this package
+
+          at https://www.npmjs.com/settings/~/tokens and updating the repository secret:
+
+            gh secret set NPM_TOKEN --repo <owner>/<repo>
+
+          Then re-run this workflow (Actions -> publish -> Run workflow).
+          MSG
+
+      - name: Fail when publish did not succeed
+        if: steps.publish.outcome == 'failure'
+        run: exit 1
