@@ -154,7 +154,8 @@ plugin_manager action=install_bundle target=<clone 目录的绝对路径>
 | `lib/index.js` | 宿主侧空实现（`apply() {}`） |
 | `lib/client.js` | 全部逻辑：`@` 对话源、拖拽桥、挑选面板、插入、i18n、样式 |
 | `locale/zh.json`、`locale/en.json` | 市场展示用的标题与描述 |
-| `icon.svg` | 插件图标 |
+| `icon.svg` | 插件图标（矢量，供 DSH 内部使用） |
+| `icon.png` | 插件图标（256×256 栅格，供插件市场收录） |
 
 ## 兼容性
 
