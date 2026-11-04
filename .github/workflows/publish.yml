@@ -7,7 +7,35 @@ on:
   workflow_dispatch:
 
 jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Verify syntax and manifests
+        run: |
+          node --check lib/client.js
+          node --check lib/index.js
+          node -e "for (const f of ['package.json','locale/zh.json','locale/en.json']) JSON.parse(require('fs').readFileSync(f,'utf8'))"
+
+      - name: Check bundle manifest
+        run: |
+          node -e "
+          const p = require('./package.json');
+          const need = ['name','version','type','main','exports','dsh'];
+          for (const k of need) if (!(k in p)) { console.error('missing ' + k); process.exit(1); }
+          if (!p.dsh.bundle || !p.dsh.bundle.patch) { console.error('missing dsh.bundle.patch'); process.exit(1); }
+          if (!p.dsh.client || p.dsh.client.platform !== 'web') { console.error('missing dsh.client platform'); process.exit(1); }
+          if (!p.exports['./client']) { console.error('missing ./client export'); process.exit(1); }
+          console.log('manifest ok: ' + p.name + '@' + p.version);
+          "
+
   npm:
+    needs: verify
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -19,15 +47,18 @@ jobs:
           node-version: 20
           registry-url: https://registry.npmjs.org
 
-      - name: Verify syntax and manifest
+      - name: Check npm token
+        id: token
         run: |
-          node --check lib/client.js
-          node --check lib/index.js
-          node -e "JSON.parse(require('fs').readFileSync('package.json','utf8'))"
-          node -e "JSON.parse(require('fs').readFileSync('locale/zh.json','utf8'))"
-          node -e "JSON.parse(require('fs').readFileSync('locale/en.json','utf8'))"
+          if [ -z "${{ secrets.NPM_TOKEN }}" ]; then
+            echo "::notice title=NPM_TOKEN not configured::Skipping npm publish. Add a repository secret named NPM_TOKEN (an npm Automation token) to publish releases automatically."
+            echo "present=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "present=true" >> "$GITHUB_OUTPUT"
+          fi
 
       - name: Publish to npm
+        if: steps.token.outputs.present == 'true'
         run: npm publish --access public
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
