@@ -1,6 +1,6 @@
 {
   "name": "dsh-conversation-links",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "DSH 插件：跨对话引用 —— @ 引用其他对话、从左侧栏拖拽对话进输入框、打开对话勾选消息插入到另一个对话。",
   "keywords": [
     "dsh",
