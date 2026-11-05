@@ -1,6 +1,6 @@
 {
   "name": "dsh-conversation-links",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "DSH plugin: reference other conversations — mention one with @, drag a sidebar conversation into the composer, or open a conversation, tick individual messages and insert them into another one.",
   "keywords": [
     "dsh",
